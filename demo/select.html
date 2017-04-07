@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>select</title>
+  <style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+  #app {
+    margin: 50px;
+  }
+    .filenum-ct {
+      width: 150px;
+      height: 300px;
+      border: 1px solid #ccc;
+      overflow: auto;
+      padding: 10px;
+    }
+    ul,li {
+      list-style: none;
+    }
+    .clearfix {
+      content: '';
+      display: block;
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+  <p>{{filenum}}</p>
+    <input type="text" placeholder="-请选择-" @click="toggle">
+    <input type="file">
+    <div class="filenum-ct" v-if="showCt">
+      <ul>
+      <li>
+        <button @click="selectAll">全选</button>
+        <button @click="empty">清空</button>
+      </li>
+        <li v-for="item in datasource">
+        <input type="checkbox" :id="item['work_no']" v-model="filenum" :value="item['work_no']">
+        <label :for="item['work_no']">{{ item['work_no'] }}</label>
+        </li>
+      </ul>
+    </div>
+    
+  </div>
+  <script src="vue.js"></script>
+  <script src="data.js"></script>
+  <script>
+    var a = new Vue ({
+      el: '#app',
+      data: {
+        selected: '',
+        showCt: false,
+        datasource: data,
+        filenum: []
+      },
+      methods: {
+        toggle: function(){
+          this.showCt = !this.showCt
+        },
+        selectAll: function(){
+          let fileArr = []
+          for (let i=0; i<this.datasource.length; i++) {
+            fileArr.push(this.datasource[i]['work_no']);
+          }
+          this.filenum = fileArr
+        },
+        empty: function(){
+          this.filenum = []
+        }
+      }
+    })
+  </script>
+</body>
+</html>
